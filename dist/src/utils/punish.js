@@ -3,16 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.banExecutor = banExecutor;
 exports.jailExecutor = jailExecutor;
 const config_1 = require("../config/config");
+const whitelist_1 = require("./whitelist");
 async function banExecutor(guild, id, reason) {
-    if (!id || id === config_1.config.ownerId || id === guild.ownerId)
+    if (!id || id === config_1.config.ownerId || id === guild.ownerId || id === guild.client.user?.id)
         return false;
     const m = await guild.members.fetch(id).catch(() => null);
-    if (!m || !m.bannable)
+    if (!m || !m.bannable || (0, whitelist_1.isWhitelisted)(m))
         return false;
     return !!(await m.ban({ reason }).then(() => true).catch(() => false));
 }
 async function jailExecutor(guild, id, roleId, reason) {
-    if (!id || id === config_1.config.ownerId || id === guild.ownerId || !roleId)
+    if (!id || id === config_1.config.ownerId || id === guild.ownerId || id === guild.client.user?.id || !roleId)
         return false;
     const m = await guild.members.fetch(id).catch(() => null);
     if (!m || !m.manageable)

@@ -14,6 +14,8 @@ class Guard {
         const e = await (0, audit_1.executor)(guild, type, targetId, maxAge);
         if (!e?.executor)
             return null;
+        if (e.executor.id === guild.client.user?.id)
+            return null;
         const m = await guild.members.fetch(e.executor.id).catch(() => null);
         if (!m || (0, whitelist_1.isWhitelisted)(m))
             return null;

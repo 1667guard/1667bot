@@ -11,6 +11,7 @@ export class Guard {
     if(!this.enabled(guild)) return null;
     const e=await executor(guild,type,targetId,maxAge);
     if(!e?.executor) return null;
+    if(e.executor.id===guild.client.user?.id) return null;
     const m=await guild.members.fetch(e.executor.id).catch(()=>null);
     if(!m || isWhitelisted(m)) return null;
     return {entry:e,member:m};

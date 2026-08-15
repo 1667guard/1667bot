@@ -11,5 +11,6 @@ export const config = {
   jailRoleId: process.env.JAIL_ROLE_ID ?? "",
   envWhitelistUsers: csv(process.env.WHITELIST_USER_IDS),
   envWhitelistRoles: csv(process.env.WHITELIST_ROLE_IDS),
-  envSafeRoles: csv(process.env.SAFE_ROLE_IDS)
+  envSafeRoles: csv(process.env.SAFE_ROLE_IDS),
+  allowedBotIds: csv(process.env.ALLOWED_BOT_IDS)
 };
