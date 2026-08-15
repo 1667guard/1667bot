@@ -7,8 +7,9 @@ import { log } from "../utils/log";
 import { config } from "../config/config";
 
 export class Guard {
-  async actor(guild:Guild,type:AuditLogEvent,targetId?:string) {
-    const e=await executor(guild,type,targetId);
+  async actor(guild:Guild,type:AuditLogEvent,targetId?:string,maxAge?:number) {
+    if(!this.enabled(guild)) return null;
+    const e=await executor(guild,type,targetId,maxAge);
     if(!e?.executor) return null;
     const m=await guild.members.fetch(e.executor.id).catch(()=>null);
     if(!m || isWhitelisted(m)) return null;

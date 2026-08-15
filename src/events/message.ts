@@ -2,6 +2,7 @@ import { Events } from "discord.js";
 import { guard } from "../core/guard"; import { limits } from "../utils/limit";
 export default {name:Events.MessageCreate,once:false,async execute(m:any){
  if(!m.guild||m.author.bot)return;
+ if(!guard.enabled(m.guild))return;
  if(m.author.id===m.guild.ownerId)return;
  if(/@(everyone|here)\b/i.test(m.content)){
   await m.delete().catch(()=>null);

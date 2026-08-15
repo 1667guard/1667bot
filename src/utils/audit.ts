@@ -7,7 +7,8 @@ export async function executor(guild:Guild,type:AuditLogEvent,targetId?:string,m
   for(const e of logs.entries.values()) {
     if(!e.executor) continue;
     if(now-e.createdTimestamp>maxAge) continue;
-    if(targetId && e.target?.id!==targetId) continue;
+    const target=(e.target as any)?.id;
+    if(targetId && target!==targetId) continue;
     return e;
   }
   return null;
